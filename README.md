@@ -1,3 +1,5 @@
+[![Stories in Ready](https://badge.waffle.io/GUBotDev/ardupilot.png?label=ready&title=Ready)](http://waffle.io/GUBotDev/ardupilot)
+
 # ArduPilot Project
 
 You can find lots of development information at the [ArduPilot development site](http://dev.ardupilot.com)
