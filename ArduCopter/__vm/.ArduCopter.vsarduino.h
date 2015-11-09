@@ -70,6 +70,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\ArduCopter\Parameters.h>
 #include <..\ArduCopter\Parameters.pde>
 #include <..\ArduCopter\UserCode.pde>
+#include <..\ArduCopter\UserVariables.h>
 #include <..\ArduCopter\commands.pde>
 #include <..\ArduCopter\commands_logic.pde>
 #include <..\ArduCopter\compassmot.pde>

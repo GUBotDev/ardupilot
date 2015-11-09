@@ -330,6 +330,12 @@ static GCS_MAVLINK gcs[MAVLINK_COMM_NUM_BUFFERS];
 static RangeFinder sonar;
 static bool sonar_enabled = true; // enable user switch for sonar
 #endif
+////////////////////////////////////////////////////////////////////////////////
+//LIDAR (initializing the Lidar, very similar to SONAR)
+#if CONFIG_LIDAR == ENABLED
+static RangeFinda lidar;
+static bool lidar_enabled = true;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // User variables
@@ -560,7 +566,14 @@ static int16_t sonar_alt;
 static uint8_t sonar_alt_health;   // true if we can trust the altitude from the sonar
 static float target_sonar_alt;      // desired altitude in cm above the ground
 static int32_t baro_alt;            // barometer altitude in cm above home
-static float baro_climbrate;        // barometer climbrate in cm/s
+static float baro_climbrate; // barometer climbrate in cm/s
+
+//////////////
+
+//Extension variables for Lidar to use
+static int16_t lidar_alt;
+static uint8_t sonar_alt_health;
+static float target_sonar_alt;
 
 
 ////////////////////////////////////////////////////////////////////////////////
