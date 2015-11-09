@@ -7,6 +7,14 @@ static void init_sonar(void)
 }
 #endif
 
+// Initialize lidar
+ #if CONFIG_LIDAR == ENABLED
+static void init_lidar(void)
+{
+    lidar.init();
+}
+#endif
+
 static void init_barometer(bool full_calibration)
 {
     gcs_send_text_P(SEVERITY_LOW, PSTR("Calibrating barometer"));
@@ -39,6 +47,42 @@ static void read_barometer(void)
         }
         AP_Notify::flags.baro_glitching = report_baro_glitch;
     }
+}
+
+// return lidar altitude in centimeters
+static int16_t read_lidar(void)
+{
+#if CONFIG_LIDAR == ENABLED
+    lidar.update();
+
+    // exit immediately if lidar is disabled
+    if (!lidar_enabled || !lidar.healthy()) {
+        lidar_alt_health = 0;
+        return 0;
+    }
+
+    int16_t temp_alt = lidar.distance_cm();
+
+    if (temp_alt >= lidar.min_distance_cm() && 
+        temp_alt <= lidar.max_distance_cm() * LIDAR_RELIABLE_DISTANCE_PCT) {
+        if ( lidar_alt_health < LIDAR_ALT_HEALTH_MAX ) {
+            lidar_alt_health++;
+        }
+    }else{
+        lidar_alt_health = 0;
+    }
+
+ #if LIDAR_TILT_CORRECTION == 1
+    // correct alt for angle of the lidar
+    float temp = ahrs.cos_pitch() * ahrs.cos_roll();
+    temp = max(temp, 0.707f);
+    temp_alt = (float)temp_alt * temp;
+ #endif
+
+    return temp_alt;
+#else
+    return 0;
+#endif
 }
 
 // return sonar altitude in centimeters
