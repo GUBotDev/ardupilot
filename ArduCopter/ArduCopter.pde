@@ -333,7 +333,7 @@ static bool sonar_enabled = true; // enable user switch for sonar
 ////////////////////////////////////////////////////////////////////////////////
 //LIDAR (initializing the Lidar, very similar to SONAR)
 #if CONFIG_LIDAR == ENABLED
-static RangeFinda lidar;
+static RangeFinder lidar;
 static bool lidar_enabled = true;
 #endif
 
