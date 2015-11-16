@@ -572,8 +572,8 @@ static float baro_climbrate; // barometer climbrate in cm/s
 
 //Extension variables for Lidar to use
 static int16_t lidar_alt;
-static uint8_t sonar_alt_health;
-static float target_sonar_alt;
+static uint8_t lidar_alt_health;
+static float target_lidar_alt;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1575,6 +1575,10 @@ static void tuning(){
         // set sonar gain
         g.sonar_gain.set(tuning_value);
         break;
+	//This case statement will call the LIDAR_GAIN instead.
+	case CH6_LIDAR_GAIN:
+		g.lidar_gain.set(tuning_value);
+		break;
 
 #if 0
         // disabled for now - we need accessor functions
