@@ -94,6 +94,7 @@ public:
         k_param_pilot_velocity_z_max,
         k_param_circle_rate,                // deprecated - remove
         k_param_sonar_gain,
+		k_param_lidar_gain,
         k_param_ch8_option,
         k_param_arming_check,
         k_param_sprayer,
@@ -332,6 +333,7 @@ public:
 
     AP_Int16        rtl_altitude;
     AP_Float        sonar_gain;
+	AP_Float        lidar_gain;
 
     AP_Int8         failsafe_battery_enabled;   // battery failsafe enabled
     AP_Float        fs_batt_voltage;            // battery voltage below which failsafe will be triggered

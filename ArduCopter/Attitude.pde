@@ -260,6 +260,40 @@ static float get_throttle_surface_tracking(int16_t target_rate, float current_al
     return (target_rate + velocity_correction);
 }
 
+// get_throttle_surface_tracking_lidar - hold copter at the desired distance above the ground using the lidar
+//      returns climb rate (in cm/s) which should be passed to the position controller
+static float get_throttle_surface_tracking_lidar(int16_t target_rate, float current_alt_target, float dt)
+{
+    static uint32_t last_call_ms = 0;
+    float distance_error;
+    float velocity_correction;
+
+    uint32_t now = millis();
+
+    // reset target altitude if this controller has just been engaged
+    if (now - last_call_ms > SONAR_TIMEOUT_MS) {
+        target_lidar_alt = lidar_alt + current_alt_target - current_loc.alt;
+    }
+    last_call_ms = now;
+
+    // adjust sonar target alt if motors have not hit their limits
+    if ((target_rate<0 && !motors.limit.throttle_lower) || (target_rate>0 && !motors.limit.throttle_upper)) {
+        target_lidar_alt += target_rate * dt;
+    }
+
+    // do not let target altitude get too far from current altitude above ground
+    // Note: the 750cm limit is perhaps too wide but is consistent with the regular althold limits and helps ensure a smooth transition
+    target_lidar_alt = constrain_float(target_lidar_alt,lidar_alt-pos_control.get_leash_down_z(),lidar_alt+pos_control.get_leash_up_z());
+
+    // calc desired velocity correction from target sonar alt vs actual sonar alt (remove the error already passed to Altitude controller to avoid oscillations)
+    distance_error = (target_lidar_alt - lidar_alt) - (current_alt_target - current_loc.alt);
+    velocity_correction = distance_error * g.lidar_gain;
+    velocity_correction = constrain_float(velocity_correction, -THR_SURFACE_TRACKING_VELZ_MAX, THR_SURFACE_TRACKING_VELZ_MAX);
+
+    // return combined pilot climb rate + rate to correct sonar alt error
+    return (target_rate + velocity_correction);
+}
+
 // set_accel_throttle_I_from_pilot_throttle - smoothes transition from pilot controlled throttle to autopilot throttle
 static void set_accel_throttle_I_from_pilot_throttle(int16_t pilot_throttle)
 {

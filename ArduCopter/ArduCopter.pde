@@ -1559,6 +1559,10 @@ static void tuning(){
         // set sonar gain
         g.sonar_gain.set(tuning_value);
         break;
+	case CH6_LIDAR_GAIN:
+        // set sonar gain
+        g.lidar_gain.set(tuning_value);
+        break;
 
 #if 0
         // disabled for now - we need accessor functions

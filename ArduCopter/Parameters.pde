@@ -111,6 +111,14 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @Increment: 0.01
     // @User: Standard
     GSCALAR(sonar_gain,     "RNGFND_GAIN",           SONAR_GAIN_DEFAULT),
+    
+    // @Param: RNGFND_LIDAR_GAIN
+    // @DisplayName: Rangefinder gain for the lidar
+    // @Description: Used to adjust the speed with which the target altitude is changed when objects are sensed below the copter
+    // @Range: 0.01 2.0
+    // @Increment: 0.01
+    // @User: Standard
+    GSCALAR(lidar_gain,     "RNGFND_LIDAR_GAIN",           LIDAR_GAIN_DEFAULT),
 
     // @Param: FS_BATT_ENABLE
     // @DisplayName: Battery Failsafe Enable
