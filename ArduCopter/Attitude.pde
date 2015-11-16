@@ -282,7 +282,7 @@ static float get_throttle_surface_tracking_lidar(int16_t target_rate, float curr
 
 	// do not let target altitude get too far from current altitude above ground
 	// Note: the 750cm limit is perhaps too wide but is consistent with the regular althold limits and helps ensure a smooth transition
-	target_lidar_alt = constrain_float(target_lidar_alt, lidar_alt - pos_control.get_leash_down_z(), sonar_alt + pos_control.get_leash_up_z());
+	target_lidar_alt = constrain_float(target_lidar_alt, lidar_alt - pos_control.get_leash_down_z(), lidar_alt + pos_control.get_leash_up_z());
 
 	// calc desired velocity correction from target sonar alt vs actual sonar alt (remove the error already passed to Altitude controller to avoid oscillations)
 	distance_error = (target_lidar_alt - lidar_alt) - (current_alt_target - current_loc.alt);
