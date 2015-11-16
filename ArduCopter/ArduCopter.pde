@@ -1407,7 +1407,10 @@ static void update_altitude()
     read_barometer();
 
     // read in sonar altitude
+	//the sonar_alt is being updated here..
     sonar_alt           = read_sonar();
+	//Uncomment to use lidar_alt instead
+	//lidar_alt         = read_lidar();
 
     // write altitude info to dataflash logs
     if (should_log(MASK_LOG_CTUN)) {
