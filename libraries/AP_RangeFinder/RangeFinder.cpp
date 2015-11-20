@@ -131,7 +131,7 @@ const AP_Param::GroupInfo RangeFinder::var_info[] PROGMEM = {
     // @Description: Maximum distance in centimeters that rangefinder can reliably read
 	// @Units: centimeters
     // @Increment: 1
-    AP_GROUPINFO("2_MAX_CM",  18, RangeFinder, _max_distance_cm[1], 700),
+    AP_GROUPINFO("2_MAX_CM",  18, RangeFinder, _max_distance_cm[1], 4000),
 
     // @Param: 2_STOP_PIN
     // @DisplayName: Rangefinder stop pin
