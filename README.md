@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/GUBotDev/ardupilot.png?label=ready&title=Ready)](http://waffle.io/GUBotDev/ardupilot)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/181732d22a2e4d98b46a97976b8c133f)](https://www.codacy.com/app/carlin010/ardupilot_2)
 
 # ArduPilot Project
 
