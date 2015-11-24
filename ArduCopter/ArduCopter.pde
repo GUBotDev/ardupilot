@@ -330,6 +330,12 @@ static GCS_MAVLINK gcs[MAVLINK_COMM_NUM_BUFFERS];
 static RangeFinder sonar;
 static bool sonar_enabled = true; // enable user switch for sonar
 #endif
+////////////////////////////////////////////////////////////////////////////////
+//LIDAR (initializing the Lidar, very similar to SONAR)
+#if CONFIG_LIDAR == ENABLED
+static RangeFinder lidar;
+static bool lidar_enabled = true;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // User variables
@@ -560,7 +566,14 @@ static int16_t sonar_alt;
 static uint8_t sonar_alt_health;   // true if we can trust the altitude from the sonar
 static float target_sonar_alt;      // desired altitude in cm above the ground
 static int32_t baro_alt;            // barometer altitude in cm above home
-static float baro_climbrate;        // barometer climbrate in cm/s
+static float baro_climbrate; // barometer climbrate in cm/s
+
+//////////////
+
+//Extension variables for Lidar to use
+static int16_t lidar_alt;
+static uint8_t lidar_alt_health;
+static float target_lidar_alt;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1394,7 +1407,10 @@ static void update_altitude()
     read_barometer();
 
     // read in sonar altitude
+	//the sonar_alt is being updated here..
     sonar_alt           = read_sonar();
+	//Uncomment to use lidar_alt instead
+	//lidar_alt         = read_lidar();
 
     // write altitude info to dataflash logs
     if (should_log(MASK_LOG_CTUN)) {
@@ -1559,6 +1575,10 @@ static void tuning(){
         // set sonar gain
         g.sonar_gain.set(tuning_value);
         break;
+	//This case statement will call the LIDAR_GAIN instead.
+	case CH6_LIDAR_GAIN:
+		g.lidar_gain.set(tuning_value);
+		break;
 
 #if 0
         // disabled for now - we need accessor functions

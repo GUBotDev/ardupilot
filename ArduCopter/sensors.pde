@@ -50,6 +50,7 @@ static void read_barometer(void)
 }
 
 // return lidar altitude in centimeters
+<<<<<<< HEAD
 static int16_t read_lidar(void)
 {
 #if CONFIG_LIDAR == ENABLED
@@ -82,6 +83,46 @@ static int16_t read_lidar(void)
     return temp_alt;
 #else
     return 0;
+=======
+// THERE MAY NEED TO BE SOME CONSTANTS THAT NEED CHANGED
+// SOME MAY BE..
+// lidar.min_distance.cm() & lidar.max_distance.cm()
+// LIDAR_RELIABLE_DISTANCE_PCT
+// LIDAR_ALT_HEALTH AND LIDAR_ALT_MAX
+static int16_t read_lidar(void)
+{
+#if CONFIG_LIDAR == ENABLED
+	lidar.update();
+
+	// exit immediately if sonar is disabled
+	if (!lidar_enabled || !lidar.healthy()) {
+		lidar_alt_health = 0;
+		return 0;
+	}
+
+	int16_t temp_alt = lidar.distance_cm();
+
+	if (temp_alt >= lidar.min_distance_cm() &&
+		temp_alt <= lidar.max_distance_cm() * LIDAR_RELIABLE_DISTANCE_PCT) {
+		if (lidar_alt_health < LIDAR_ALT_HEALTH_MAX) {
+			lidar_alt_health++;
+		}
+	}
+	else {
+		lidar_alt_health = 0;
+	}
+
+#if LIDAR_TILT_CORRECTION == 1
+	// correct alt for angle of the sonar
+	float temp = ahrs.cos_pitch() * ahrs.cos_roll();
+	temp = max(temp, 0.707f);
+	temp_alt = (float)temp_alt * temp;
+#endif
+
+	return temp_alt;
+#else
+	return 0;
+>>>>>>> gFolgateLidar
 #endif
 }
 

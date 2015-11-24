@@ -70,6 +70,10 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\ArduCopter\Parameters.h>
 #include <..\ArduCopter\Parameters.pde>
 #include <..\ArduCopter\UserCode.pde>
+<<<<<<< HEAD
+=======
+#include <..\ArduCopter\UserVariables.h>
+>>>>>>> gFolgateLidar
 #include <..\ArduCopter\commands.pde>
 #include <..\ArduCopter\commands_logic.pde>
 #include <..\ArduCopter\compassmot.pde>

@@ -94,6 +94,7 @@ public:
         k_param_pilot_velocity_z_max,
         k_param_circle_rate,                // deprecated - remove
         k_param_sonar_gain,
+		k_param_lidar_gain,                 //May or may not be needed.
         k_param_ch8_option,
         k_param_arming_check,
         k_param_sprayer,
@@ -192,6 +193,7 @@ public:
         k_param_pack_capacity,  // deprecated - can be deleted
         k_param_compass_enabled,
         k_param_compass,
+			//the parameter below is an old parameter no longer used in the sonar readings.
         k_param_sonar_enabled_old, // deprecated
         k_param_frame_orientation,
         k_param_optflow_enabled,
@@ -332,6 +334,7 @@ public:
 
     AP_Int16        rtl_altitude;
     AP_Float        sonar_gain;
+	AP_Float        lidar_gain;   //this variable will be responsible for lidar_gain instead of sonar_gain
 
     AP_Int8         failsafe_battery_enabled;   // battery failsafe enabled
     AP_Float        fs_batt_voltage;            // battery voltage below which failsafe will be triggered
